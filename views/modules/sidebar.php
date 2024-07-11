@@ -3,8 +3,8 @@
       <!-- Brand Logo -->
       <a href="/admin" class="brand-link">
           <img src="<?php echo $path ?>views/assets/img/template/<?php echo $template->id_template ?>/<?php echo $template->icon_template ?>"
-              class="brand-image img-circle elevation-3" style="opacity: .8">
-          <span class="brand-text font-weight-light">Administradores</span>
+              class="brand-image elevation-3" style="opacity: .8">
+          <span class="brand-text font-weight-light">MEVASA</span>
       </a>
 
       <!-- Sidebar -->
@@ -136,7 +136,7 @@
                       <a href="#" class="nav-link">
                           <i class="nav-icon fas fa-shopping-bag"></i>
                           <p>
-                              Publicaciones
+                              Archivo
                               <i class="right fas fa-angle-left"></i>
                               <span class="right badge badge-primary mr-1">5</span>
                           </p>

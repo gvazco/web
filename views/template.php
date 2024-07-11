@@ -249,6 +249,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <style>
     body {
         font-family: '<?php echo $fontBody ?>', sans-serif;
+        background-color: #E2E8F0 !important;
     }
 
     .slideOpt h1,
