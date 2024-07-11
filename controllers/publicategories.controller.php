@@ -7,10 +7,10 @@ class PubliCategoriesController
 	Gestión Categorias
 	=============================================*/
 
-    public function categoryManage()
+    public function publicategoryManage()
     {
 
-        if (isset($_POST["name_category"])) {
+        if (isset($_POST["name_publicategory"])) {
 
             echo '<script>
 
@@ -21,23 +21,23 @@ class PubliCategoriesController
 
             if (isset($_POST["idPubliCategory"])) {
 
-                if (isset($_FILES['image_category']["tmp_name"]) && !empty($_FILES['image_category']["tmp_name"])) {
+                if (isset($_FILES['image_publicategory']["tmp_name"]) && !empty($_FILES['image_publicategory']["tmp_name"])) {
 
-                    $image = $_FILES['image_category'];
-                    $folder = "assets/img/categories/" . $_POST["url_category"];
-                    $name = $_POST["url_category"];
+                    $image = $_FILES['image_publicategory'];
+                    $folder = "assets/img/publicategories/" . $_POST["url_publicategory"];
+                    $name = $_POST["url_publicategory"];
                     $width = 1000;
                     $height = 600;
 
-                    $saveImageCategory = TemplateController::saveImage($image, $folder, $name, $width, $height);
+                    $saveImagePubliCategory = TemplateController::saveImage($image, $folder, $name, $width, $height);
                 } else {
 
-                    $saveImageCategory = $_POST["old_image_category"];
+                    $saveImagePubliCategory = $_POST["old_image_publicategory"];
                 }
 
-                $fields = "name_category=" . trim(TemplateController::capitalize($_POST["name_category"])) . "&url_category=" . $_POST["url_category"] . "&icon_category=" . $_POST["icon_category"] . "&image_category=" . $saveImageCategory . "&description_category=" . trim($_POST["description_category"]) . "&keywords_category=" . strtolower($_POST["keywords_category"]);
+                $fields = "name_publicategory=" . trim(TemplateController::capitalize($_POST["name_publicategory"])) . "&url_publicategory=" . $_POST["url_publicategory"] . "&icon_publicategory=" . $_POST["icon_publicategory"] . "&image_publicategory=" . $saveImagePubliCategory . "&description_publicategory=" . trim($_POST["description_publicategory"]) . "&keywords_publicategory=" . strtolower($_POST["keywords_publicategory"]);
 
-                $url = "publicategories?id=" . base64_decode($_POST["idPubliCategory"]) . "&nameId=id_category&token=" . $_SESSION["admin"]->token_admin . "&table=admins&suffix=admin";
+                $url = "publicategories?id=" . base64_decode($_POST["idPubliCategory"]) . "&nameId=id_publicategory&token=" . $_SESSION["admin"]->token_admin . "&table=admins&suffix=admin";
                 $method = "PUT";
 
                 $updateData = CurlController::request($url, $method, $fields);
@@ -49,7 +49,7 @@ class PubliCategoriesController
 							fncMatPreloader("off");
 							fncFormatInputs();
 
-							fncSweetAlert("success","Sus datos han sido actualizados con éxito","/admin/categorias");
+							fncSweetAlert("success","Sus datos han sido actualizados con éxito","/admin/publicategorias");
 			
 						</script>';
                 } else {
@@ -80,15 +80,15 @@ class PubliCategoriesController
 				Validar y guardar la imagen
 				=============================================*/
 
-                if (isset($_FILES['image_category']["tmp_name"]) && !empty($_FILES['image_category']["tmp_name"])) {
+                if (isset($_FILES['image_publicategory']["tmp_name"]) && !empty($_FILES['image_publicategory']["tmp_name"])) {
 
-                    $image = $_FILES['image_category'];
-                    $folder = "assets/img/publicategories/" . $_POST["url_category"];
-                    $name = $_POST["url_category"];
+                    $image = $_FILES['image_publicategory'];
+                    $folder = "assets/img/publicategories/" . $_POST["url_publicategory"];
+                    $name = $_POST["url_publicategory"];
                     $width = 1000;
                     $height = 600;
 
-                    $saveImageCategory = TemplateController::saveImage($image, $folder, $name, $width, $height);
+                    $saveImagePubliCategory = TemplateController::saveImage($image, $folder, $name, $width, $height);
                 } else {
 
                     echo '<script>
@@ -108,13 +108,13 @@ class PubliCategoriesController
 
                 $fields = array(
 
-                    "name_category" => trim(TemplateController::capitalize($_POST["name_category"])),
-                    "url_category" => $_POST["url_category"],
-                    "icon_category" => $_POST["icon_category"],
-                    "image_category" => $saveImageCategory,
-                    "description_category" => trim($_POST["description_category"]),
-                    "keywords_category" => strtolower($_POST["keywords_category"]),
-                    "date_created_category" => date("Y-m-d")
+                    "name_publicategory" => trim(TemplateController::capitalize($_POST["name_publicategory"])),
+                    "url_publicategory" => $_POST["url_publicategory"],
+                    "icon_publicategory" => $_POST["icon_publicategory"],
+                    "image_publicategory" => $saveImagePubliCategory,
+                    "description_publicategory" => trim($_POST["description_publicategory"]),
+                    "keywords_publicategory" => strtolower($_POST["keywords_publicategory"]),
+                    "date_created_publicategory" => date("Y-m-d")
 
                 );
 
@@ -130,7 +130,7 @@ class PubliCategoriesController
 								fncMatPreloader("off");
 								fncFormatInputs();
 
-								fncSweetAlert("success","Sus datos han sido creados con éxito","/admin/categorias");
+								fncSweetAlert("success","Sus datos han sido creados con éxito","/admin/publicategorias");
 				
 							</script>';
                 } else {

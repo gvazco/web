@@ -84,7 +84,7 @@ if (isset($_GET["publicategory"])) {
 
                     require_once "controllers/publicategories.controller.php";
                     $manage = new PubliCategoriesController();
-                    $manage->categoryManage();
+                    $manage->publicategoryManage();
 
                     ?>
 

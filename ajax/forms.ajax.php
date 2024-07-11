@@ -2,7 +2,8 @@
 
 require_once "../controllers/curl.controller.php";
 
-class FormsController{
+class FormsController
+{
 
     /*=============================================
    	Validar títulos repetidos
@@ -12,16 +13,16 @@ class FormsController{
     public $equalTo;
     public $linkTo;
 
-    public function ajaxForms(){
+    public function ajaxForms()
+    {
 
-    	$url = $this->table."?equalTo=".urlencode($this->equalTo)."&linkTo=".$this->linkTo."&select=".$this->linkTo;	
-    	$method = "GET";
-		$fields = array();
+        $url = $this->table . "?equalTo=" . urlencode($this->equalTo) . "&linkTo=" . $this->linkTo . "&select=" . $this->linkTo;
+        $method = "GET";
+        $fields = array();
 
-		$data = CurlController::request($url, $method, $fields);
+        $data = CurlController::request($url, $method, $fields);
 
-		echo $data->status;
-
+        echo $data->status;
     }
 
     /*=============================================
@@ -30,15 +31,36 @@ class FormsController{
 
     public $idCategory;
 
-    public function listSubcategories(){
+    public function listSubcategories()
+    {
 
-    	$select = "id_subcategory,name_subcategory";
-    	$url = "subcategories?linkTo=id_category_subcategory&equalTo=".$this->idCategory."&select=".$select; 
+        $select = "id_subcategory,name_subcategory";
+        $url = "subcategories?linkTo=id_category_subcategory&equalTo=" . $this->idCategory . "&select=" . $select;
 
-    	$method = "GET";
+        $method = "GET";
         $fields = array();
 
-        $data = CurlController::request($url, $method, $fields)->results; 
+        $data = CurlController::request($url, $method, $fields)->results;
+
+        echo json_encode($data);
+    }
+
+    /*=============================================
+   	Selector Anidado Publicategories
+    =============================================*/
+
+    public $idPubliCategory;
+
+    public function listPubliSubcategories()
+    {
+
+        $select = "id_publisubcategory,name_publisubcategory";
+        $url = "publisubcategories?linkTo=id_publicategory_publisubcategory&equalTo=" . $this->idPubliCategory . "&select=" . $select;
+
+        $method = "GET";
+        $fields = array();
+
+        $data = CurlController::request($url, $method, $fields)->results;
 
         echo json_encode($data);
     }
@@ -50,18 +72,19 @@ class FormsController{
     public $idProduct;
     public $token;
 
-    public function addFavorites(){
+    public function addFavorites()
+    {
 
         $select = "id_user";
-        $url = "users?linkTo=token_user&equalTo=".$this->token."&select=".$select; 
+        $url = "users?linkTo=token_user&equalTo=" . $this->token . "&select=" . $select;
         $method = "GET";
         $fields = array();
 
-        $data = CurlController::request($url, $method, $fields); 
-        
-        if($data->status == 200){
+        $data = CurlController::request($url, $method, $fields);
 
-            $url = "favorites?token=".$this->token."&table=users&suffix=user";
+        if ($data->status == 200) {
+
+            $url = "favorites?token=" . $this->token . "&table=users&suffix=user";
             $method = "POST";
             $fields = array(
                 "id_user_favorite" => $data->results[0]->id_user,
@@ -69,14 +92,12 @@ class FormsController{
                 "date_created_favorite" => date("Y-m-d")
             );
 
-            $addFavorite = CurlController::request($url, $method, $fields); 
-            
-            if($addFavorite->status == 200){
+            $addFavorite = CurlController::request($url, $method, $fields);
+
+            if ($addFavorite->status == 200) {
                 echo json_encode($addFavorite->results);
-            }   
-
+            }
         }
-
     }
 
     /*=============================================
@@ -85,9 +106,10 @@ class FormsController{
 
     public $idFavorite;
 
-    public function remFavorite(){
+    public function remFavorite()
+    {
 
-        $url = "favorites?id=".$this->idFavorite."&nameId=id_favorite&token=".$this->token."&table=users&suffix=user";
+        $url = "favorites?id=" . $this->idFavorite . "&nameId=id_favorite&token=" . $this->token . "&table=users&suffix=user";
         $method = "DELETE";
         $fields = array();
 
@@ -96,7 +118,7 @@ class FormsController{
         echo $remFavorite->status;
     }
 
-     /*=============================================
+    /*=============================================
     Adicionar al carrito de compras en base de datos
     =============================================*/
 
@@ -104,18 +126,19 @@ class FormsController{
     public $idVariantCart;
     public $quantityCart;
 
-    public function addCart(){
+    public function addCart()
+    {
 
         $select = "id_user";
-        $url = "users?linkTo=token_user&equalTo=".$this->token."&select=".$select; 
+        $url = "users?linkTo=token_user&equalTo=" . $this->token . "&select=" . $select;
         $method = "GET";
         $fields = array();
 
-        $data = CurlController::request($url, $method, $fields); 
-        
-        if($data->status == 200){
+        $data = CurlController::request($url, $method, $fields);
 
-            $url = "carts?token=".$this->token."&table=users&suffix=user";
+        if ($data->status == 200) {
+
+            $url = "carts?token=" . $this->token . "&table=users&suffix=user";
             $method = "POST";
             $fields = array(
                 "id_user_cart" => $data->results[0]->id_user,
@@ -127,11 +150,8 @@ class FormsController{
 
             $addCart = CurlController::request($url, $method, $fields);
 
-            echo $addCart->status;         
-
+            echo $addCart->status;
         }
-
-
     }
 
 
@@ -142,94 +162,100 @@ class FormsController{
     public $idCartUpdate;
     public $quantityCartUpdate;
 
-    public function updateCart(){
-      
-        $url = "carts?id=".$this->idCartUpdate."&nameId=id_cart&token=".$this->token."&table=users&suffix=user";
-      
+    public function updateCart()
+    {
+
+        $url = "carts?id=" . $this->idCartUpdate . "&nameId=id_cart&token=" . $this->token . "&table=users&suffix=user";
+
         $method = "PUT";
-        $fields = "quantity_cart=".$this->quantityCartUpdate;
+        $fields = "quantity_cart=" . $this->quantityCartUpdate;
 
         $updateCart = CurlController::request($url, $method, $fields);
 
-        echo $updateCart->status;         
-
+        echo $updateCart->status;
     }
 
-     /*=============================================
+    /*=============================================
     Remover carrito en base de datos
     =============================================*/
 
     public $idCartDelete;
 
-    public function remCart(){
+    public function remCart()
+    {
 
-        $url = "carts?id=".$this->idCartDelete."&nameId=id_cart&token=".$this->token."&table=users&suffix=user";
+        $url = "carts?id=" . $this->idCartDelete . "&nameId=id_cart&token=" . $this->token . "&table=users&suffix=user";
         $method = "DELETE";
         $fields = array();
 
         $remCart = CurlController::request($url, $method, $fields);
 
         echo $remCart->status;
-
-     }
-
+    }
 }
 
-if(isset($_POST["table"])){
+if (isset($_POST["table"])) {
 
-	$forms = new FormsController();
-	$forms -> table = $_POST["table"];
-	$forms -> equalTo = $_POST["equalTo"];
-	$forms -> linkTo = $_POST["linkTo"];
-	$forms -> ajaxForms();
+    $forms = new FormsController();
+    $forms->table = $_POST["table"];
+    $forms->equalTo = $_POST["equalTo"];
+    $forms->linkTo = $_POST["linkTo"];
+    $forms->ajaxForms();
 }
 
-if(isset($_POST["idCategory"])){
+if (isset($_POST["idCategory"])) {
 
-	$data = new FormsController();
-	$data -> idCategory = $_POST["idCategory"];
-	$data -> listSubcategories();
+    $data = new FormsController();
+    $data->idCategory = $_POST["idCategory"];
+    $data->listSubcategories();
 }
 
-if(isset($_POST["idProduct"])){
+if (isset($_POST["idPubliCategory"])) {
+
+    $data = new FormsController();
+    $data->idPubliCategory = $_POST["idPubliCategory"];
+    $data->listPubliSubcategories();
+}
+
+if (isset($_POST["idProduct"])) {
 
     $addFavorites = new FormsController();
-    $addFavorites -> token = $_POST["token"];
-    $addFavorites -> idProduct = $_POST["idProduct"];
-    $addFavorites -> addFavorites();
+    $addFavorites->token = $_POST["token"];
+    $addFavorites->idProduct = $_POST["idProduct"];
+    $addFavorites->addFavorites();
 }
 
-if(isset($_POST["idFavorite"])){
+if (isset($_POST["idFavorite"])) {
 
     $remFavorites = new FormsController();
-    $remFavorites -> token = $_POST["token"];
-    $remFavorites -> idFavorite = $_POST["idFavorite"];
-    $remFavorites -> remFavorite();
+    $remFavorites->token = $_POST["token"];
+    $remFavorites->idFavorite = $_POST["idFavorite"];
+    $remFavorites->remFavorite();
 }
 
-if(isset($_POST["idProductCart"])){
+if (isset($_POST["idProductCart"])) {
 
     $addCart = new FormsController();
-    $addCart -> token = $_POST["token"];
-    $addCart -> idProductCart = $_POST["idProductCart"];
-    $addCart -> idVariantCart = $_POST["idVariantCart"];
-    $addCart -> quantityCart = $_POST["quantityCart"];
-    $addCart -> addCart();
+    $addCart->token = $_POST["token"];
+    $addCart->idProductCart = $_POST["idProductCart"];
+    $addCart->idVariantCart = $_POST["idVariantCart"];
+    $addCart->quantityCart = $_POST["quantityCart"];
+    $addCart->addCart();
 }
 
-if(isset($_POST["idCartUpdate"])){
+if (isset($_POST["idCartUpdate"])) {
 
     $updateCart = new FormsController();
-    $updateCart -> token = $_POST["token"];
-    $updateCart -> idCartUpdate = $_POST["idCartUpdate"];
-    $updateCart -> quantityCartUpdate = $_POST["quantityCartUpdate"];
-    $updateCart -> updateCart();
+    $updateCart->token = $_POST["token"];
+    $updateCart->idCartUpdate = $_POST["idCartUpdate"];
+    $updateCart->quantityCartUpdate = $_POST["quantityCartUpdate"];
+    $updateCart->updateCart();
 }
 
-if(isset($_POST["idCartDelete"])){
+if (isset($_POST["idCartDelete"])) {
 
     $remCart = new FormsController();
-    $remCart -> token = $_POST["token"];
-    $remCart -> idCartDelete = $_POST["idCartDelete"];
-    $remCart -> remCart();
+    $remCart->token = $_POST["token"];
+    $remCart->idCartDelete = $_POST["idCartDelete"];
+    $remCart->remCart();
 }
