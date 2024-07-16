@@ -57,7 +57,7 @@ class DatatableController
                 return;
             }
 
-            $select = "id_publisubcategory,status_publisubcategory,name_publisubcategory,url_publisubcategory,image_publisubcategory,description_publisubcategory,keywords_publisubcategory,name_publicategory,products_publisubcategory,views_publisubcategory,date_updated_publisubcategory";
+            $select = "id_publisubcategory,status_publisubcategory,name_publisubcategory,url_publisubcategory,image_publisubcategory,description_publisubcategory,keywords_publisubcategory,name_publicategory,publications_publisubcategory,views_publisubcategory,date_updated_publisubcategory";
 
             /*=============================================
            	Búsqueda de datos
@@ -172,7 +172,7 @@ class DatatableController
 
                 $name_publicategory = $value->name_publicategory;
 
-                $products_publisubcategory = $value->products_publisubcategory;
+                $publications_publisubcategory = $value->publications_publisubcategory;
 
                 $views_publisubcategory = "<span class='badge badge-warning rounded-pill px-3 py-1'><i class='fas fa-eye'></i> " . $value->views_publisubcategory . "</span>";
 
@@ -198,7 +198,7 @@ class DatatableController
 						"description_publisubcategory":"' . $description_publisubcategory . '",
 						"keywords_publisubcategory":"' . $keywords_publisubcategory . '",
 						"name_publicategory":"' . $name_publicategory . '",
-						"products_publisubcategory":"' . $products_publisubcategory . '",
+						"publications_publisubcategory":"' . $publications_publisubcategory . '",
 						"views_publisubcategory":"' . $views_publisubcategory . '",
 						"date_updated_publisubcategory":"' . $date_updated_publisubcategory . '",
 						"actions":"' . $actions . '"

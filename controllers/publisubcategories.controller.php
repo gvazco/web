@@ -83,7 +83,7 @@ class PubliSubcategoriesController
 							fncMatPreloader("off");
 							fncFormatInputs();
 
-							fncSweetAlert("success","Sus datos han sido actualizados con éxito","/admin/subcategorias");
+							fncSweetAlert("success","Sus datos han sido actualizados con éxito","/admin/publisubcategorias");
 			
 						</script>';
                 } else {
@@ -152,7 +152,7 @@ class PubliSubcategoriesController
 
                 );
 
-                $url = "subcategories?token=" . $_SESSION["admin"]->token_admin . "&table=admins&suffix=admin";
+                $url = "publisubcategories?token=" . $_SESSION["admin"]->token_admin . "&table=admins&suffix=admin";
                 $method = "POST";
 
                 $createData = CurlController::request($url, $method, $fields);
@@ -181,7 +181,7 @@ class PubliSubcategoriesController
 								fncMatPreloader("off");
 								fncFormatInputs();
 
-								fncSweetAlert("success","Sus datos han sido creados con éxito","/admin/subcategorias");
+								fncSweetAlert("success","Sus datos han sido creados con éxito","/admin/publisubcategorias");
 				
 							</script>';
                 } else {

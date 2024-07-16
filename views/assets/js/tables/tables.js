@@ -107,7 +107,7 @@ if ($(".publisubcategoriesTable").length > 0) {
     { data: "image_publisubcategory" },
     { data: "description_publisubcategory" },
     { data: "keywords_publisubcategory" },
-    { data: "name_category" },
+    { data: "name_publicategory" },
     { data: "publications_publisubcategory" },
     { data: "views_publisubcategory" },
     { data: "date_updated_publisubcategory" },
