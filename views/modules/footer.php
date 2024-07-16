@@ -134,23 +134,22 @@
 
                 <h1 class="lead small">Dudas e inquietudes, contáctenos en:</h1>
 
-
-
                 <h1 class="lead small">
 
-                    <i class="fa fa-phone-square pe-2"></i> (555) 555-55-55
+                    <i class="fa fa-phone-square pe-2"></i> (55) 8280-2149
 
                     <br><br>
 
-                    <i class="fa fa-envelope pe-2"></i> soporte@tiendavirtual.com
+                    <i class="fa fa-envelope pe-2"></i> info.mevasa@gmail.com
 
                     <br><br>
 
-                    <i class="fa fa-map-marker pe-2"></i> Calle 45F 82 - 31 Local 102
+                    <i class="fa fa-map-marker pe-2"></i> Ricardo Flores Magon #105
+                    Col. Izcalli Chamapa.
 
                     <br><br>
 
-                    Bogotá | Colombia
+                    Naucalpan | Estado de México.
                 </h1>
 
                 <iframe class="mt-2"
@@ -225,6 +224,7 @@
 
         </div>
         <!-- Default to the left -->
-        <small>&copy; <?php echo date("Y") ?> Todos los derechos reservados. Sitio elaborado por la Compañía.</small>
+        <small>&copy; <?php echo date("Y") ?> Todos los derechos reservados. Sitio elaborado por Techos y Mantenimientos
+            | Mevasa.</small>
     </div>
 </footer>
