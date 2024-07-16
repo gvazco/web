@@ -37,7 +37,7 @@ class PubliSubcategoriesController
 
                 $fields = "name_publisubcategory=" . trim(TemplateController::capitalize($_POST["name_publisubcategory"])) . "&url_publisubcategory=" . $_POST["url_publisubcategory"] . "&image_publisubcategory=" . $saveImagePubliSubcategory . "&description_publisubcategory=" . trim($_POST["description_publisubcategory"]) . "&keywords_publisubcategory=" . strtolower($_POST["keywords_publisubcategory"]) . "&id_publicategory_publisubcategory=" . $_POST["id_publicategory_publisubcategory"];
 
-                $url = "publlisubcategories?id=" . base64_decode($_POST["idPubliSubcategory"]) . "&nameId=id_publisubcategory&token=" . $_SESSION["admin"]->token_admin . "&table=admins&suffix=admin";
+                $url = "publisubcategories?id=" . base64_decode($_POST["idPubliSubcategory"]) . "&nameId=id_publisubcategory&token=" . $_SESSION["admin"]->token_admin . "&table=admins&suffix=admin";
                 $method = "PUT";
 
                 $updateData = CurlController::request($url, $method, $fields);

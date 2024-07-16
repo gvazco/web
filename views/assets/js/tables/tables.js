@@ -269,6 +269,18 @@ $(document).on("click", ".deleteItem", function () {
                   "warning",
                   "Este item no se puede borrar porque tiene productos vinculados"
                 );
+              } else if (table == "publicategories") {
+                fncMatPreloader("off");
+                fncToastr(
+                  "warning",
+                  "Este item no se puede borrar porque tiene publisubcategorías vinculadas"
+                );
+              } else if (table == "publisubcategories") {
+                fncMatPreloader("off");
+                fncToastr(
+                  "warning",
+                  "Este item no se puede borrar porque tiene publicaciones vinculadas"
+                );
               } else {
                 fncMatPreloader("off");
                 fncToastr("warning", "Este item no se puede borrar");
