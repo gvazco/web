@@ -471,27 +471,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
       } else {
 
         /*=============================================
-      Buscar coincidencia url - producto
-      =============================================*/
+        Buscar coincidencia url - producto - publicacion
+        =============================================*/
 
         $url = "products?linkTo=url_product&equalTo=" . $routesArray[0] . "&select=url_product";
         $product = CurlController::request($url, $method, $fields);
 
+        $publiurl = "publications?linkTo=url_publication&equalTo=" . $routesArray[0] . "&select=url_publication";
+        $publication = CurlController::request($publiurl, $method, $fields);
+
         if ($product->status == 200) {
 
           include "pages/product/product.php";
+        } elseif ($publication->status == 200) {
+
+          include "pages/publication/publication.php";
         } else {
 
           /*=============================================
-        Buscar coincidencia url - categoría
-        =============================================*/
+          Buscar coincidencia url - categoría
+          =============================================*/
 
           $url = "categories?linkTo=url_category&equalTo=" . $routesArray[0] . "&select=url_category";
           $category = CurlController::request($url, $method, $fields);
 
+          $publiurl = "publicategories?linkTo=url_publicategory&equalTo=" . $routesArray[0] . "&select=url_publicategory";
+          $publicategory = CurlController::request($publiurl, $method, $fields);
+
           if ($category->status == 200) {
 
             include "pages/products/products.php";
+          } elseif ($publicategory->status == 200) {
+
+            include "pages/publications/publications.php";
           } else {
 
             /*=============================================
@@ -501,9 +513,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
             $url = "subcategories?linkTo=url_subcategory&equalTo=" . $routesArray[0] . "&select=url_subcategory";
             $subcategory = CurlController::request($url, $method, $fields);
 
+            $publiurl = "publisubcategories?linkTo=url_publisubcategory&equalTo=" . $routesArray[0] . "&select=url_publisubcategory";
+            $publisubcategory = CurlController::request($publiurl, $method, $fields);
+
             if ($subcategory->status == 200) {
 
               include "pages/products/products.php";
+            } elseif ($publisubcategory->status == 200) {
+
+              include "pages/publications/publications.php";
             } else {
 
               /*=============================================
@@ -518,6 +536,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
               ) {
 
                 include "pages/products/products.php";
+              } elseif ($routesArray[0] == "last-publications") {
+
+                include "pages/publications/publications.php";
               } else {
 
                 /*=============================================
@@ -526,6 +547,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 $linkTo = ["name_product", "keywords_product", "name_category", "keywords_category", "name_subcategory", "keywords_subcategory"];
                 $totalSearch = 0;
+
+                $linkToPubli = ["name_publication", "keywords_publication", "name_publicategory", "keywords_publicategory", "name_publisubcategory", "keywords_publisubcategory"];
+                $totalPubliSearch = 0;
 
                 foreach ($linkTo as $key => $value) {
 
@@ -543,78 +567,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
                 }
 
-                if ($totalSearch == count($linkTo)) {
+                foreach ($linkToPubli as $key => $value) {
 
-                  include "pages/404/404.php";
-                }
-              } //Finaliza Filtro de productos gratuitos y demás
+                  $totalPubliSearch++;
 
-            } //Finaliza Filtro de url subcategorías
+                  $publiurl = "relations?rel=publications,publisubcategories,publicategories&type=publication,publisubcategory,publicategory&linkTo=" . $value . "&search=" . $routesArray[0] . "&select=id_publication";
+                  $publisearch = CurlController::request($publiurl, $method, $fields);
 
-          } //Finaliza Filtro de url categorías
-
-        } //Finaliza Filtro de url productos
-
-
-        /*=============================================
-      Buscar coincidencia url - publicaciones
-      =============================================*/
-        $url = "publications?linkTo=url_publication&equalTo=" . $routesArray[0] . "&select=url_publication";
-        $publication = CurlController::request($url, $method, $fields);
-
-        if ($publication->status == 200) {
-          include "pages/publication/publication.php";
-        } else {
-          /*=============================================
-        Buscar coincidencia url - categoría
-        =============================================*/
-
-          $url = "publicategories?linkTo=url_publicategory&equalTo=" . $routesArray[0] . "&select=url_publicategory";
-          $publicategory = CurlController::request($url, $method, $fields);
-
-          if ($publicategory->status == 200) {
-
-            include "pages/publications/publications.php";
-          } else {
-
-            /*=============================================
-          Buscar coincidencia url - subcategoría
-          =============================================*/
-
-            $url = "publisubcategories?linkTo=url_publisubcategory&equalTo=" . $routesArray[0] . "&select=url_publisubcategory";
-            $publisubcategory = CurlController::request($url, $method, $fields);
-
-            if ($publisubcategory->status == 200) {
-
-              include "pages/publications/publications.php";
-            } else {
-
-              /*=============================================
-            Filtro de publicaciones y demás
-            =============================================*/
-
-              if (
-                $routesArray[0] == "last-publications"
-              ) {
-
-                include "pages/publications/publications.php";
-              } else {
-
-                /*=============================================
-              Filtro de búsqueda
-              =============================================*/
-
-                $linkTo = ["name_publication", "keywords_publication", "name_publicategory", "keywords_publicategory", "name_publisubcategory", "keywords_publisubcategory"];
-                $totalSearch = 0;
-
-                foreach ($linkTo as $key => $value) {
-
-                  $totalSearch++;
-
-                  $url = "relations?rel=publications,publisubcategories,publicategories&type=publication,publisubcategory,publicategory&linkTo=" . $value . "&search=" . $routesArray[0] . "&select=id_publication";
-                  $search = CurlController::request($url, $method, $fields);
-
-                  if ($search->status == 200) {
+                  if ($publisearch->status == 200) {
 
                     include "pages/publications/publications.php";
 
@@ -626,11 +586,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 if ($totalSearch == count($linkTo)) {
 
                   include "pages/404/404.php";
+                } elseif ($totalPubliSearch == count($linkToPubli)) {
+
+                  include "pages/404/404.php";
                 }
-              }
-            }
-          }
-        } //Finaliza Filtro de url publicaciones
+              } //Finaliza Filtro de productos - publicaciones gratuitos y demás
+
+            } //Finaliza Filtro de url subcategorías
+
+          } //Finaliza Filtro de url categorías
+
+        } //Finaliza Filtro de url productos - publicaciones
 
       } //Finaliza Filtro de lista blanca
 

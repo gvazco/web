@@ -59,7 +59,7 @@ if (!empty($ondemandProducts)) {
 
         <div class="btn-group float-end p-2">
 
-            <button class="btn btn-default btnView bg-white" attr-type="grid" attr-index="1">
+            <button class="btn btn-default btnView bg-white" attr-type="grid" attr-index="4">
 
                 <i class="fas fa-th fa-xs pe-1"></i>
 
@@ -67,7 +67,7 @@ if (!empty($ondemandProducts)) {
 
             </button>
 
-            <button class="btn btn-default btnView" attr-type="list" attr-index="1">
+            <button class="btn btn-default btnView" attr-type="list" attr-index="4">
 
                 <i class="fas fa-list fa-xs pe-1"></i>
 
@@ -106,7 +106,7 @@ if (!empty($ondemandProducts)) {
 
         <!-- GRID -->
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 pt-3 pb-4 grid-1">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 pt-3 pb-4 grid-4">
 
             <?php foreach ($ondemandProducts as $key => $value) : ?>
 
@@ -190,7 +190,7 @@ if (!empty($ondemandProducts)) {
 
         <!-- LIST -->
 
-        <div class="row list-1" style="display:none">
+        <div class="row list-4" style="display:none">
 
             <?php foreach ($ondemandProducts as $key => $value) : ?>
 

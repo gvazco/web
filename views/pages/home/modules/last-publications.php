@@ -31,7 +31,7 @@ if (count($viewsPublications) == 0) {
 
         <div class="btn-group float-end p-2">
 
-            <button class="btn btn-default btnView bg-white" attr-type="grid" attr-index="2">
+            <button class="btn btn-default btnView bg-white" attr-type="grid" attr-index="5">
 
                 <i class="fas fa-th fa-xs pe-1"></i>
 
@@ -39,7 +39,7 @@ if (count($viewsPublications) == 0) {
 
             </button>
 
-            <button class="btn btn-default btnView" attr-type="list" attr-index="2">
+            <button class="btn btn-default btnView" attr-type="list" attr-index="5">
 
                 <i class="fas fa-list fa-xs pe-1"></i>
 
@@ -78,7 +78,7 @@ if (count($viewsPublications) == 0) {
 
         <!-- GRID -->
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 pt-3 pb-4 grid-2">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 pt-3 pb-4 grid-5">
 
             <?php foreach ($viewsPublications as $key => $value) : ?>
 
@@ -140,7 +140,7 @@ if (count($viewsPublications) == 0) {
 
         <!-- LIST -->
 
-        <div class="row list-2" style="display:none">
+        <div class="row list-5" style="display:none">
 
             <?php foreach ($viewsPublications as $key => $value) : ?>
 

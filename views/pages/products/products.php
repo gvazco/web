@@ -564,6 +564,8 @@ if (!empty($products)) {
                             class="badge badgeNew bg-warning text-uppercase text-white mt-1 p-2 badge-pill">Nuevo</span>
                         <?php endif ?>
 
+                        <?php if ($value->type_variant != 'ondemand') : ?>
+
                         <?php if ($value->offer_variant > 0) : ?>
                         <span class="badge bg-danger text-uppercase text-white mt-1 p-2 badge-pill">¡En oferta!</span>
                         <?php endif ?>
@@ -572,11 +574,28 @@ if (!empty($products)) {
                         <span class="badge bg-dark text-uppercase text-white mt-1 p-2 badge-pill">No tiene stock</span>
                         <?php endif ?>
 
+                        <?php endif ?>
+
                     </p>
 
                     <p class="my-2"><?php echo $value->description_product ?></p>
 
                     <div class="clearfix">
+
+                        <?php if ($value->type_variant == 'ondemand') : ?>
+
+                        <h5 class="float-start text-uppercase text-muted"><small>Cotizar</small></h5>
+
+                        <?php else : ?>
+
+                        <?php if ($value->price_variant == 0) : ?>
+
+                        <h5 class="float-start text-uppercase text-muted"><small>Gratis</small></h5>
+
+
+                        <?php else : ?>
+
+
 
                         <h5 class="float-start text-uppercase text-muted">
                             <?php if ($value->offer_variant > 0) : ?>
@@ -586,6 +605,9 @@ if (!empty($products)) {
                             $<?php echo $value->price_variant ?>
                             <?php endif ?>
                         </h5>
+
+                        <?php endif ?>
+                        <?php endif ?>
 
                         <span class="float-end">
 
