@@ -512,6 +512,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
               if (
                 $routesArray[0] == "free" ||
+                $routesArray[0] == "ondemand" ||
                 $routesArray[0] == "most-seen" ||
                 $routesArray[0] == "most-sold"
               ) {
@@ -563,6 +564,72 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         if ($publication->status == 200) {
           include "pages/publication/publication.php";
+        } else {
+          /*=============================================
+        Buscar coincidencia url - categoría
+        =============================================*/
+
+          $url = "publicategories?linkTo=url_publicategory&equalTo=" . $routesArray[0] . "&select=url_publicategory";
+          $publicategory = CurlController::request($url, $method, $fields);
+
+          if ($publicategory->status == 200) {
+
+            include "pages/publications/publications.php";
+          } else {
+
+            /*=============================================
+          Buscar coincidencia url - subcategoría
+          =============================================*/
+
+            $url = "publisubcategories?linkTo=url_publisubcategory&equalTo=" . $routesArray[0] . "&select=url_publisubcategory";
+            $publisubcategory = CurlController::request($url, $method, $fields);
+
+            if ($publisubcategory->status == 200) {
+
+              include "pages/publications/publications.php";
+            } else {
+
+              /*=============================================
+            Filtro de publicaciones y demás
+            =============================================*/
+
+              if (
+                $routesArray[0] == "last-publications"
+              ) {
+
+                include "pages/publications/publications.php";
+              } else {
+
+                /*=============================================
+              Filtro de búsqueda
+              =============================================*/
+
+                $linkTo = ["name_publication", "keywords_publication", "name_publicategory", "keywords_publicategory", "name_publisubcategory", "keywords_publisubcategory"];
+                $totalSearch = 0;
+
+                foreach ($linkTo as $key => $value) {
+
+                  $totalSearch++;
+
+                  $url = "relations?rel=publications,publisubcategories,publicategories&type=publication,publisubcategory,publicategory&linkTo=" . $value . "&search=" . $routesArray[0] . "&select=id_publication";
+                  $search = CurlController::request($url, $method, $fields);
+
+                  if ($search->status == 200) {
+
+                    include "pages/publications/publications.php";
+
+                    break;
+                  } //Finaliza Filtro de búsqueda
+
+                }
+
+                if ($totalSearch == count($linkTo)) {
+
+                  include "pages/404/404.php";
+                }
+              }
+            }
+          }
         } //Finaliza Filtro de url publicaciones
 
       } //Finaliza Filtro de lista blanca

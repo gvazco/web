@@ -203,7 +203,7 @@ if (isset($_GET["publication"])) {
                                 <div class="card-body">
 
                                     <!--=====================================
-									Título del publicationo
+									Título de la publicacion
 									======================================-->
 
                                     <div class="form-group pb-3">
@@ -224,7 +224,7 @@ if (isset($_GET["publication"])) {
                                     </div>
 
                                     <!--=====================================
-									URL del publicationo
+									URL de la publicacion
 									======================================-->
 
                                     <div class="form-group pb-3">
@@ -419,7 +419,7 @@ if (isset($_GET["publication"])) {
 					CUARTO BLOQUE
 					======================================-->
 
-                    <div class="row row-cols-1 pt-2 variantList">
+                    <div class="row row-cols-1 pt-2 publivariantList">
 
                         <div class="col">
 
@@ -432,34 +432,34 @@ if (isset($_GET["publication"])) {
 
                                     <?php
 
-                                        $url = "variants?linkTo=id_publication_variant&equalTo=" . $publication->id_publication;
+                                        $url = "publivariants?linkTo=id_publication_publivariant&equalTo=" . $publication->id_publication;
                                         $method = "GET";
                                         $fields = array();
 
-                                        $variants = CurlController::request($url, $method, $fields);
+                                        $publivariants = CurlController::request($url, $method, $fields);
 
-                                        if ($variants->status == 200) {
+                                        if ($publivariants->status == 200) {
 
-                                            $variants = $variants->results;
+                                            $publivariants = $publivariants->results;
                                         } else {
 
-                                            $variants = array();
+                                            $publivariants = array();
                                         }
 
                                         ?>
 
-                                    <?php else : $variants = array(); ?>
+                                    <?php else : $publivariants = array(); ?>
 
 
 
                                     <?php endif ?>
 
-                                    <?php if (count($variants) > 0) : ?>
+                                    <?php if (count($publivariants) > 0) : ?>
 
                                     <input type="hidden" name="totalPubliVariants"
-                                        value="<?php echo count($variants) ?>">
+                                        value="<?php echo count($publivariants) ?>">
 
-                                    <?php foreach ($variants as $key => $value) : ?>
+                                    <?php foreach ($publivariants as $key => $value) : ?>
 
                                     <input type="hidden" class="idPubliVariant"
                                         name="idPubliVariant_<?php echo ($key + 1) ?>"
@@ -469,7 +469,7 @@ if (isset($_GET["publication"])) {
 											Variantes
 											======================================-->
 
-                                    <div class="card variantCount">
+                                    <div class="card publivariantCount">
 
                                         <div class="card-body">
 
@@ -484,7 +484,7 @@ if (isset($_GET["publication"])) {
 
                                                     <div>
                                                         <button type="button"
-                                                            class="btn btn-default btn-sm rounded-pill px-3 addVariant"><i
+                                                            class="btn btn-default btn-sm rounded-pill px-3 addPubliVariant"><i
                                                                 class="fas fa-plus fa-xs"></i> Agregar otra
                                                             variante</button>
                                                     </div>
@@ -493,8 +493,8 @@ if (isset($_GET["publication"])) {
 
                                                     <div>
                                                         <button type="button"
-                                                            class="btn btn-default btn-sm rounded-pill px-3 deleteVariant"
-                                                            idVariant="<?php echo base64_encode($value->id_variant) ?>"><i
+                                                            class="btn btn-default btn-sm rounded-pill px-3 deletePubliVariant"
+                                                            idPubliVariant="<?php echo base64_encode($value->id_publivariant) ?>"><i
                                                                 class="fas fa-times fa-xs"></i> Quitar esta
                                                             variante</button>
                                                     </div>
@@ -519,20 +519,21 @@ if (isset($_GET["publication"])) {
                                                     <div class="form-group">
 
                                                         <select class="custom-select"
-                                                            name="type_variant_<?php echo ($key + 1) ?>"
+                                                            name="type_publivariant_<?php echo ($key + 1) ?>"
                                                             onchange="changeVariant(event, <?php echo ($key + 1) ?>)">
 
-                                                            <option <?php if ($value->type_variant == "gallery") : ?>
+                                                            <option
+                                                                <?php if ($value->type_publivariant == "gallery") : ?>
                                                                 selected <?php endif ?> value="gallery">Galería de fotos
                                                             </option>
-                                                            <option <?php if ($value->type_variant == "video") : ?>
+                                                            <option <?php if ($value->type_publivariant == "video") : ?>
                                                                 selected <?php endif ?> value="video">Video</option>
 
                                                         </select>
 
                                                     </div>
 
-                                                    <?php if ($value->type_variant == "gallery") : ?>
+                                                    <?php if ($value->type_publivariant == "gallery") : ?>
 
                                                     <!--=====================================
 														        Galería del publicationo
@@ -544,7 +545,7 @@ if (isset($_GET["publication"])) {
 														        	Plugin Dropzone
 														        	======================================-->
 
-                                                        <?php foreach (json_decode($value->media_variant, true)  as $index => $item) : ?>
+                                                        <?php foreach (json_decode($value->media_publivariant, true)  as $index => $item) : ?>
 
                                                         <div class="dz-preview dz-file-preview">
 
@@ -579,7 +580,7 @@ if (isset($_GET["publication"])) {
                                                     <input type="hidden"
                                                         name="galleryOldPublication_<?php echo ($key + 1) ?>"
                                                         class="galleryOldPublication_<?php echo ($key + 1) ?>"
-                                                        value='<?php echo $value->media_variant ?>'>
+                                                        value='<?php echo $value->media_publivariant ?>'>
 
                                                     <input type="hidden"
                                                         name="deleteGalleryPublication_<?php echo ($key + 1) ?>"
@@ -626,14 +627,14 @@ if (isset($_GET["publication"])) {
                                                         <input type="text" class="form-control"
                                                             name="videopublication_<?php echo ($key + 1) ?>"
                                                             placeholder="Ingresa la URL de YouTube"
-                                                            value="<?php echo $value->media_variant ?>"
+                                                            value="<?php echo $value->media_publivariant ?>"
                                                             onchange="changeVideo(event, <?php echo ($key + 1) ?>)">
 
                                                     </div>
 
                                                     <?php
 
-                                                                $idYoutube = explode("/", $value->media_variant);
+                                                                $idYoutube = explode("/", $value->media_publivariant);
                                                                 $idYoutube = end($idYoutube);
 
 
@@ -647,7 +648,7 @@ if (isset($_GET["publication"])) {
                                                         class="mb-3 iframeYoutube_<?php echo ($key + 1) ?>"></iframe>
 
                                                     <!--=====================================
-														        Galería del publicationo
+														        Galería de la publicacion
 														        ======================================-->
 
                                                     <div class="dropzone dropzone_<?php echo ($key + 1) ?> mb-3"
@@ -666,8 +667,8 @@ if (isset($_GET["publication"])) {
                                                     </div>
 
                                                     <input type="hidden"
-                                                        name="gallerypublication_<?php echo ($key + 1) ?>"
-                                                        class="gallerypublication_<?php echo ($key + 1) ?>"
+                                                        name="galleryPublication_<?php echo ($key + 1) ?>"
+                                                        class="galleryPublication_<?php echo ($key + 1) ?>"
                                                         style="display:none">
 
                                                     <?php endif ?>
@@ -687,9 +688,9 @@ if (isset($_GET["publication"])) {
                                                         </span>
 
                                                         <input type="text" class="form-control"
-                                                            name="description_variant_<?php echo ($key + 1) ?>"
-                                                            placeholder="Descripción: Color Negro, talla S, Material Goma"
-                                                            value="<?php echo $value->description_variant ?>">
+                                                            name="description_publivariant_<?php echo ($key + 1) ?>"
+                                                            placeholder="Descripción de la publicación"
+                                                            value="<?php echo $value->description_publivariant ?>">
 
                                                     </div>
 
@@ -707,7 +708,7 @@ if (isset($_GET["publication"])) {
 
                                     <?php else : ?>
 
-                                    <input type="hidden" name="totalVariants" value="1">
+                                    <input type="hidden" name="totalPubliVariants" value="1">
 
                                     <!--=====================================
 										Variantes
@@ -722,7 +723,7 @@ if (isset($_GET["publication"])) {
 
                                             <div>
                                                 <button type="button"
-                                                    class="btn btn-default btn-sm rounded-pill px-3 addVariant">
+                                                    class="btn btn-default btn-sm rounded-pill px-3 addPubliVariant">
                                                     <i class="fas fa-plus fa-xs"></i> Agregar otra variante
                                                 </button>
                                             </div>
@@ -741,7 +742,7 @@ if (isset($_GET["publication"])) {
 
                                             <div class="form-group">
 
-                                                <select class="custom-select" name="type_variant_1"
+                                                <select class="custom-select" name="type_publivariant_1"
                                                     onchange="changeVariant(event, 1)">
 
                                                     <option value="gallery">Galería de fotos</option>
@@ -769,8 +770,8 @@ if (isset($_GET["publication"])) {
 
                                             </div>
 
-                                            <input type="hidden" name="gallerypublication_1"
-                                                class="gallerypublication_1">
+                                            <input type="hidden" name="galleryPublication_1"
+                                                class="galleryPublication_1">
 
                                             <!--=====================================
 										        Insertar video Youtube
@@ -807,84 +808,11 @@ if (isset($_GET["publication"])) {
                                                     <i class="fas fa-clipboard-list"></i>
                                                 </span>
 
-                                                <input type="text" class="form-control" name="description_variant_1"
+                                                <input type="text" class="form-control"
+                                                    name="description_publivariant_1"
                                                     placeholder="Descripción: Color Negro, talla S, Material Goma">
 
                                             </div>
-
-                                            <!--=====================================
-												Costo de la variante
-												======================================-->
-
-                                            <div class="input-group mb-3">
-
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-hand-holding-usd"></i>
-                                                </span>
-
-                                                <input type="number" step="any" class="form-control"
-                                                    name="cost_variant_1" placeholder="Costo de compra">
-
-                                            </div>
-
-                                            <!--=====================================
-												Precio de la variante
-												======================================-->
-
-                                            <div class="input-group mb-3">
-
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-funnel-dollar"></i>
-                                                </span>
-
-                                                <input type="number" step="any" class="form-control"
-                                                    name="price_variant_1" placeholder="Precio de venta">
-
-                                            </div>
-
-                                            <!--=====================================
-												Oferta de la variante
-												======================================-->
-
-                                            <div class="input-group mb-3">
-
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-tag"></i>
-                                                </span>
-
-                                                <input type="number" step="any" class="form-control"
-                                                    name="offer_variant_1" placeholder="Precio de descuento">
-
-                                            </div>
-
-                                            <!--=====================================
-												Fin de Oferta de la variante
-												======================================-->
-
-                                            <div class="input-group mb-3">
-
-                                                <span class="input-group-text">Fin del descuento</span>
-
-                                                <input type="date" class="form-control" name="date_variant_1">
-
-                                            </div>
-
-
-                                            <!--=====================================
-												Stock de la variante
-												======================================-->
-
-                                            <div class="input-group mb-3">
-
-                                                <span class="input-group-text">
-                                                    <i class="fas fa-list"></i>
-                                                </span>
-
-                                                <input type="number" class="form-control" name="stock_variant_1"
-                                                    placeholder="Stock disponible">
-
-                                            </div>
-
 
 
                                         </div>

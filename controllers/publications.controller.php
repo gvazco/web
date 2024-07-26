@@ -82,7 +82,7 @@ class PublicationsController
                 $updateOldPubliCategory = CurlController::request($url, $method, $fields);
 
                 /*=============================================
-				Agregar producto vinculado a categoria
+				Agregar publicacion vinculado a categoria
 				=============================================*/
 
                 $url = "publicategories?equalTo=" . $_POST["id_publicategory_publication"] . "&linkTo=id_publicategory&select=publications_publicategory";
@@ -99,7 +99,7 @@ class PublicationsController
                 $updatePubliCategory = CurlController::request($url, $method, $fields);
 
                 /*=============================================
-				Quitar producto vinculado a subcategoria
+				Quitar publicacion vinculado a subcategoria
 				=============================================*/
 
                 $url = "publisubcategories?equalTo=" . base64_decode($_POST["old_id_publisubcategory_publication"]) . "&linkTo=id_publisubcategory&select=publications_publisubcategory";
@@ -116,7 +116,7 @@ class PublicationsController
                 $updateOldPubliSubcategory = CurlController::request($url, $method, $fields);
 
                 /*=============================================
-				Agregar producto vinculado a subcategoria
+				Agregar publicacion vinculado a subcategoria
 				=============================================*/
 
                 $url = "publisubcategories?equalTo=" . $_POST["id_publisubcategory_publication"] . "&linkTo=id_publisubcategory&select=publications_publisubcategory";
@@ -136,15 +136,15 @@ class PublicationsController
 				Variantes
 				=============================================*/
 
-                $totalVariants = $_POST["totalVariants"];
-                $countVariant = 0;
-                $readyVariant = 0;
+                $totalPubliVariants = $_POST["totalPubliVariants"];
+                $countPubliVariant = 0;
+                $readyPubliVariant = 0;
 
-                for ($i = 1; $i <= $totalVariants; $i++) {
+                for ($i = 1; $i <= $totalPubliVariants; $i++) {
 
-                    $countVariant++;
+                    $countPubliVariant++;
 
-                    if ($_POST["type_variant_" . $i] == "gallery") {
+                    if ($_POST["type_publivariant_" . $i] == "gallery") {
 
                         $galleryPublication = array();
                         $galleryCount = 0;
@@ -171,21 +171,21 @@ class PublicationsController
 
                                 if (count(json_decode($_POST["galleryPublication_" . $i], true)) == $galleryCount) {
 
-                                    if ($_POST['galleryOldProduct_' . $i] != "[]") {
+                                    if ($_POST['galleryOldPublication_' . $i] != "[]") {
 
-                                        foreach (json_decode($_POST['galleryOldProduct_' . $i], true)  as $index => $item) {
+                                        foreach (json_decode($_POST['galleryOldPublication_' . $i], true)  as $index => $item) {
 
                                             $galleryOldCount++;
                                             array_push($galleryPublication, $item);
 
-                                            if (count(json_decode($_POST['galleryOldProduct_' . $i], true)) == $galleryOldCount) {
+                                            if (count(json_decode($_POST['galleryOldPublication_' . $i], true)) == $galleryOldCount) {
 
-                                                $media_variant = json_encode($galleryPublication);
+                                                $media_publivariant = json_encode($galleryPublication);
                                             }
                                         }
                                     } else {
 
-                                        $media_variant = json_encode($galleryPublication);
+                                        $media_publivariant = json_encode($galleryPublication);
                                     }
                                 }
                             }
@@ -195,16 +195,16 @@ class PublicationsController
 			 				Cuando no subimos imágenes nuevas
 							=============================================*/
 
-                            if ($_POST['galleryOldProduct_' . $i] != "[]") {
+                            if ($_POST['galleryOldPublication_' . $i] != "[]") {
 
-                                foreach (json_decode($_POST['galleryOldProduct_' . $i], true)  as $index => $item) {
+                                foreach (json_decode($_POST['galleryOldPublication_' . $i], true)  as $index => $item) {
 
                                     $galleryOldCount++;
                                     array_push($galleryPublication, $item);
 
-                                    if (count(json_decode($_POST['galleryOldProduct_' . $i], true)) == $galleryOldCount) {
+                                    if (count(json_decode($_POST['galleryOldPublication_' . $i], true)) == $galleryOldCount) {
 
-                                        $media_variant = json_encode($galleryPublication);
+                                        $media_publivariant = json_encode($galleryPublication);
                                     }
                                 }
                             }
@@ -223,56 +223,51 @@ class PublicationsController
                         }
                     } else {
 
-                        $media_variant = $_POST["videoPublication_" . $i];
+                        $media_publivariant = $_POST["videoPublication_" . $i];
                     }
 
                     /*=============================================
 					Campos de las variantes
 					=============================================*/
 
-                    if (isset($_POST["idVariant_" . $i])) {
+                    if (isset($_POST["idPubliVariant_" . $i])) {
 
 
-                        $fields = "id_publication_variant=" . base64_decode($_POST["idProduct"]) . "&type_variant=" . $_POST["type_variant_" . $i] . "&media_variant=" . $media_variant . "&description_variant=" . $_POST["description_variant_" . $i] . "&cost_variant=" . $_POST["cost_variant_" . $i] . "&price_variant=" . $_POST["price_variant_" . $i] . "&offer_variant=" . $_POST["offer_variant_" . $i] . "&end_offer_variant=" . $_POST["date_variant_" . $i] . "&stock_variant=" . $_POST["stock_variant_" . $i];
+                        $fields = "id_publication_publivariant=" . base64_decode($_POST["idPublication"]) . "&type_publivariant=" . $_POST["type_publivariant_" . $i] . "&media_publivariant=" . $media_publivariant . "&description_publivariant=" . $_POST["description_publivariant_" . $i];
 
-                        $url = "variants?id=" . $_POST["idVariant_" . $i] . "&nameId=id_variant&token=" . $_SESSION["admin"]->token_admin . "&table=admins&suffix=admin";
+                        $url = "publivariants?id=" . $_POST["idPubliVariant_" . $i] . "&nameId=id_publivariant&token=" . $_SESSION["admin"]->token_admin . "&table=admins&suffix=admin";
                         $method = "PUT";
 
 
-                        $editVariant = CurlController::request($url, $method, $fields);
+                        $editPubliVariant = CurlController::request($url, $method, $fields);
                     } else {
 
                         $fields = array(
 
-                            "id_publication_variant" => base64_decode($_POST["idProduct"]),
-                            "type_variant" => $_POST["type_variant_" . $i],
-                            "media_variant" => $media_variant,
-                            "description_variant" => $_POST["description_variant_" . $i],
-                            "cost_variant" => $_POST["cost_variant_" . $i],
-                            "price_variant" => $_POST["price_variant_" . $i],
-                            "offer_variant" => $_POST["offer_variant_" . $i],
-                            "end_offer_variant" => $_POST["date_variant_" . $i],
-                            "stock_variant" => $_POST["stock_variant_" . $i],
-                            "date_created_variant" => date("Y-m-d")
+                            "id_publication_publivariant" => base64_decode($_POST["idPublication"]),
+                            "type_publivariant" => $_POST["type_publivariant_" . $i],
+                            "media_publivariant" => $media_publivariant,
+                            "description_publivariant" => $_POST["description_publivariant_" . $i],
+                            "date_created_publivariant" => date("Y-m-d")
 
                         );
 
 
-                        $url = "variants?token=" . $_SESSION["admin"]->token_admin . "&table=admins&suffix=admin";
+                        $url = "publivariants?token=" . $_SESSION["admin"]->token_admin . "&table=admins&suffix=admin";
                         $method = "POST";
 
-                        $editVariant = CurlController::request($url, $method, $fields);
+                        $editPubliVariant = CurlController::request($url, $method, $fields);
                     }
 
-                    if ($countVariant == $totalVariants) {
+                    if ($countPubliVariant == $totalPubliVariants) {
 
-                        $readyVariant = 200;
+                        $readyPubliVariant = 200;
                     }
                 }
 
                 if (
                     $updateData->status == 200 &&
-                    $readyVariant == 200 &&
+                    $readyPubliVariant == 200 &&
                     $updateOldPubliCategory->status == 200 &&
                     $updatePubliCategory->status == 200 &&
                     $updateOldPubliSubcategory->status == 200 &&
@@ -284,7 +279,7 @@ class PublicationsController
 							fncMatPreloader("off");
 							fncFormatInputs();
 
-							fncSweetAlert("success","Sus datos han sido actualizados con éxito","/admin/productos");
+							fncSweetAlert("success","Sus datos han sido actualizados con éxito","/admin/publications");
 			
 						</script>';
                 } else {
@@ -328,7 +323,7 @@ class PublicationsController
                     $width = 1000;
                     $height = 600;
 
-                    $saveImageProduct = TemplateController::saveImage($image, $folder, $name, $width, $height);
+                    $saveImagePublication = TemplateController::saveImage($image, $folder, $name, $width, $height);
                 } else {
 
                     echo '<script>
@@ -368,7 +363,7 @@ class PublicationsController
 
                     "name_publication" => trim(TemplateController::capitalize($_POST["name_publication"])),
                     "url_publication" => $_POST["url_publication"],
-                    "image_publication" => $saveImageProduct,
+                    "image_publication" => $saveImagePublication,
                     "description_publication" => trim($_POST["description_publication"]),
                     "keywords_publication" => strtolower($_POST["keywords_publication"]),
                     "id_publicategory_publication" => $_POST["id_publicategory_publication"],
@@ -384,7 +379,7 @@ class PublicationsController
                 $createData = CurlController::request($url, $method, $fields);
 
                 /*=============================================
-				Aumentar productos vinculados en categoría
+				Aumentar publicaciones vinculadas en categoría
 				=============================================*/
 
                 $url = "publicategories?equalTo=" . $_POST["id_publicategory_publication"] . "&linkTo=id_publicategory&select=publications_publicategory";
@@ -401,7 +396,7 @@ class PublicationsController
                 $updatePubliCategory = CurlController::request($url, $method, $fields);
 
                 /*=============================================
-				Aumentar productos vinculados en subcategoría
+				Aumentar publicaciones vinculadas en subcategoría
 				=============================================*/
 
                 $url = "publisubcategories?equalTo=" . $_POST["id_publisubcategory_publication"] . "&linkTo=id_publisubcategory&select=publications_publisubcategory";
@@ -420,15 +415,15 @@ class PublicationsController
 				Variantes
 				=============================================*/
 
-                $totalVariants = $_POST["totalVariants"];
-                $countVariant = 0;
-                $readyVariant = 0;
+                $totalPubliVariants = $_POST["totalPubliVariants"];
+                $countPubliVariant = 0;
+                $readyPubliVariant = 0;
 
-                for ($i = 1; $i <= $totalVariants; $i++) {
+                for ($i = 1; $i <= $totalPubliVariants; $i++) {
 
-                    $countVariant++;
+                    $countPubliVariant++;
 
-                    if ($_POST["type_variant_" . $i] == "gallery") {
+                    if ($_POST["type_publivariant_" . $i] == "gallery") {
 
                         $galleryPublication = array();
                         $galleryCount = 0;
@@ -454,13 +449,13 @@ class PublicationsController
 
                                 if (count(json_decode($_POST["galleryPublication_" . $i], true)) == $galleryCount) {
 
-                                    $media_variant = json_encode($galleryPublication);
+                                    $media_publivariant = json_encode($galleryPublication);
                                 }
                             }
                         }
                     } else {
 
-                        $media_variant = $_POST["videoPublication_" . $i];
+                        $media_publivariant = $_POST["videoPublication_" . $i];
                     }
 
                     /*=============================================
@@ -469,33 +464,28 @@ class PublicationsController
 
                     $fields = array(
 
-                        "id_publication_variant" => $createData->results->lastId,
-                        "type_variant" => $_POST["type_variant_" . $i],
-                        "media_variant" => $media_variant,
-                        "description_variant" => $_POST["description_variant_" . $i],
-                        "cost_variant" => $_POST["cost_variant_" . $i],
-                        "price_variant" => $_POST["price_variant_" . $i],
-                        "offer_variant" => $_POST["offer_variant_" . $i],
-                        "end_offer_variant" => $_POST["date_variant_" . $i],
-                        "stock_variant" => $_POST["stock_variant_" . $i],
-                        "date_created_variant" => date("Y-m-d")
+                        "id_publication_publivariant" => $createData->results->lastId,
+                        "type_publivariant" => $_POST["type_publivariant_" . $i],
+                        "media_publivariant" => $media_publivariant,
+                        "description_publivariant" => $_POST["description_publivariant_" . $i],
+                        "date_created_publivariant" => date("Y-m-d")
 
                     );
 
-                    $url = "variants?token=" . $_SESSION["admin"]->token_admin . "&table=admins&suffix=admin";
+                    $url = "publivariants?token=" . $_SESSION["admin"]->token_admin . "&table=admins&suffix=admin";
                     $method = "POST";
 
-                    $createVariant = CurlController::request($url, $method, $fields);
+                    $createPubliVariant = CurlController::request($url, $method, $fields);
 
-                    if ($countVariant == $totalVariants) {
+                    if ($countPubliVariant == $totalPubliVariants) {
 
-                        $readyVariant = 200;
+                        $readyPubliVariant = 200;
                     }
                 }
 
                 if (
                     $createData->status == 200 &&
-                    $readyVariant == 200 &&
+                    $readyPubliVariant == 200 &&
                     $updatePubliCategory->status == 200 &&
                     $updatePubliSubcategory->status == 200
                 ) {
@@ -505,7 +495,7 @@ class PublicationsController
 								fncMatPreloader("off");
 								fncFormatInputs();
 
-								fncSweetAlert("success","Sus datos han sido creados con éxito","/admin/productos");
+								fncSweetAlert("success","Sus datos han sido creados con éxito","/admin/publicaciones");
 				
 							</script>';
                 } else {

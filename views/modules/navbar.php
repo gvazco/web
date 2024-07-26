@@ -13,10 +13,10 @@ $dataCategories = CurlController::request($url, $method, $fields);
 
 if ($dataCategories->status == 200) {
 
-  $dataCategories = $dataCategories->results;
+    $dataCategories = $dataCategories->results;
 } else {
 
-  $dataCategories = array();
+    $dataCategories = array();
 }
 
 /*=============================================
@@ -32,10 +32,10 @@ $dataPublicategories = CurlController::request($url, $method, $fields);
 
 if ($dataPublicategories->status == 200) {
 
-  $dataPublicategories = $dataPublicategories->results;
+    $dataPublicategories = $dataPublicategories->results;
 } else {
 
-  $dataPublicategories = array();
+    $dataPublicategories = array();
 }
 
 /*=============================================
@@ -44,23 +44,23 @@ Carrito de compras
 
 if (isset($_SESSION["user"])) {
 
-  $select = "id_cart,url_product,type_variant,media_variant,name_product,description_variant,quantity_cart,offer_variant,price_variant";
-  $url = "relations?rel=carts,variants,products&type=cart,variant,product&linkTo=id_user_cart&equalTo=" . $_SESSION["user"]->id_user . "&select=" . $select;
-  $method = "GET";
-  $fields = array();
+    $select = "id_cart,url_product,type_variant,media_variant,name_product,description_variant,quantity_cart,offer_variant,price_variant";
+    $url = "relations?rel=carts,variants,products&type=cart,variant,product&linkTo=id_user_cart&equalTo=" . $_SESSION["user"]->id_user . "&select=" . $select;
+    $method = "GET";
+    $fields = array();
 
-  $carts = CurlController::request($url, $method, $fields);
+    $carts = CurlController::request($url, $method, $fields);
 
-  if ($carts->status == 200) {
+    if ($carts->status == 200) {
 
-    $carts = $carts->results;
-  } else {
+        $carts = $carts->results;
+    } else {
 
-    $carts = array();
-  }
+        $carts = array();
+    }
 } else {
 
-  $carts = array();
+    $carts = array();
 }
 
 ?>
@@ -112,22 +112,22 @@ if (isset($_SESSION["user"])) {
 
                     <?php
 
-            $select = "name_subcategory,url_subcategory";
-            $url = "subcategories?linkTo=id_category_subcategory&equalTo=" . $value->id_category . "&select=" . $select;
-            $method = "GET";
-            $fields = array();
+                        $select = "name_subcategory,url_subcategory";
+                        $url = "subcategories?linkTo=id_category_subcategory&equalTo=" . $value->id_category . "&select=" . $select;
+                        $method = "GET";
+                        $fields = array();
 
-            $dataSubcategories = CurlController::request($url, $method, $fields);
+                        $dataSubcategories = CurlController::request($url, $method, $fields);
 
-            if ($dataSubcategories->status == 200) {
+                        if ($dataSubcategories->status == 200) {
 
-              $dataSubcategories = $dataSubcategories->results;
-            } else {
+                            $dataSubcategories = $dataSubcategories->results;
+                        } else {
 
-              $dataSubcategories = array();
-            }
+                            $dataSubcategories = array();
+                        }
 
-            ?>
+                        ?>
 
                     <li class="dropdown-submenu dropdown-hover">
 
@@ -178,6 +178,25 @@ if (isset($_SESSION["user"])) {
 
                     <?php foreach ($dataPublicategories as $key => $plusvalue) : ?>
 
+                    <?php
+
+                        $select = "name_publisubcategory,url_publisubcategory";
+                        $url = "publisubcategories?linkTo=id_publicategory_publisubcategory&equalTo=" . $plusvalue->id_publicategory . "&select=" . $select;
+                        $method = "GET";
+                        $fields = array();
+
+                        $dataPubliSubcategories = CurlController::request($url, $method, $fields);
+
+                        if ($dataPubliSubcategories->status == 200) {
+
+                            $dataPubliSubcategories = $dataPubliSubcategories->results;
+                        } else {
+
+                            $dataPubliSubcategories = array();
+                        }
+
+                        ?>
+
                     <li class="dropdown-submenu dropdown-hover">
 
                         <a id="dropdownSubMenu<?php echo $key ?>" href="/<?php echo $plusvalue->url_publicategory ?>"
@@ -189,6 +208,33 @@ if (isset($_SESSION["user"])) {
                             <?php echo $plusvalue->name_publicategory ?>
 
                         </a>
+
+                        <ul class="border-0 shadow py-3 ps-3 d-block d-lg-none">
+
+                            <?php foreach ($dataPubliSubcategories as $index => $item) : ?>
+
+                            <li>
+                                <a tabindex="-1" href="/<?php echo $item->url_publisubcategory ?>"
+                                    class="dropdown-item"><?php echo $item->name_publisubcategory ?></a>
+                            </li>
+
+                            <?php endforeach ?>
+
+                        </ul>
+
+                        <ul aria-labelledby="dropdownSubMenu<?php echo $key ?>"
+                            class="dropdown-menu border-0 shadow menuSubcategory">
+
+                            <?php foreach ($dataPubliSubcategories as $index => $item) : ?>
+
+                            <li>
+                                <a tabindex="-1" href="/<?php echo $item->url_publisubcategory ?>"
+                                    class="dropdown-item"><?php echo $item->name_publisubcategory ?></a>
+                            </li>
+
+                            <?php endforeach ?>
+
+                        </ul>
 
 
                     </li>
@@ -231,26 +277,26 @@ if (isset($_SESSION["user"])) {
 
                     <?php
 
-          $shoppingBasket = 0;
-          $totalShop = 0;
+                    $shoppingBasket = 0;
+                    $totalShop = 0;
 
-          if (!empty($carts)) {
+                    if (!empty($carts)) {
 
-            foreach ($carts as $key => $value) {
+                        foreach ($carts as $key => $value) {
 
-              $shoppingBasket += $value->quantity_cart;
+                            $shoppingBasket += $value->quantity_cart;
 
-              if ($value->offer_variant > 0) {
+                            if ($value->offer_variant > 0) {
 
-                $totalShop += $value->quantity_cart * $value->offer_variant;
-              } else {
+                                $totalShop += $value->quantity_cart * $value->offer_variant;
+                            } else {
 
-                $totalShop += $value->quantity_cart * $value->price_variant;
-              }
-            }
-          }
+                                $totalShop += $value->quantity_cart * $value->price_variant;
+                            }
+                        }
+                    }
 
-          ?>
+                    ?>
 
                     TU CESTA <span id="shoppingBasket"><?php echo $shoppingBasket ?></span><br> MXN $<span
                         id="totalShop"><?php echo number_format($totalShop, 2) ?></span>

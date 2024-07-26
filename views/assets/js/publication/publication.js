@@ -39,7 +39,7 @@ $(document).on("change", ".changeVariant", function () {
     Cambiar la galeria de imagenes
     =============================================*/
 
-  if (variant.type_variant == "gallery") {
+  if (variant.type_publivariant == "gallery") {
     $(".blockQuantity").show();
     $(".pulseAnimation").parent().addClass("col-md-9");
 
@@ -56,7 +56,7 @@ $(document).on("change", ".changeVariant", function () {
 
     var count = 0;
 
-    JSON.parse(variant.media_variant).forEach((e, i) => {
+    JSON.parse(variant.media_publivariant).forEach((e, i) => {
       count++;
 
       $("#slider .slides").append(`
@@ -71,7 +71,7 @@ $(document).on("change", ".changeVariant", function () {
 
       `);
 
-      if (JSON.parse(variant.media_variant).length == count) {
+      if (JSON.parse(variant.media_publivariant).length == count) {
         activateFlexSlider();
       }
     });
@@ -81,11 +81,11 @@ $(document).on("change", ".changeVariant", function () {
     Cambiar el video
     =============================================*/
 
-  if (variant.type_variant == "video") {
+  if (variant.type_publivariant == "video") {
     $(".blockQuantity").hide();
     $(".pulseAnimation").parent().removeClass("col-md-9");
 
-    var idVideo = variant.media_variant.split("/").pop();
+    var idVideo = variant.media_publivariant.split("/").pop();
 
     $(".blockMedia").html(`
 

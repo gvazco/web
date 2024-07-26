@@ -550,10 +550,33 @@ function changeVariant(event, item) {
   if (event.target.value == "video") {
     $(".inputVideo_" + item).show();
     $(".iframeYoutube_" + item).show();
+    $(".inputWhatsapp_" + item).hide();
+    $(".inputCost_" + item).show();
+    $(".inputPrice_" + item).show();
+    $(".inputOffer_" + item).show();
+    $(".inputEndOffer_" + item).show();
+    $(".inputStock_" + item).show();
     $(".dropzone_" + item).hide();
     $(".galleryProduct_" + item).hide();
+  } else if (event.target.value == "gallery") {
+    $(".inputVideo_" + item).hide();
+    $(".iframeYoutube_" + item).hide();
+    $(".inputWhatsapp_" + item).hide();
+    $(".inputCost_" + item).show();
+    $(".inputPrice_" + item).show();
+    $(".inputOffer_" + item).show();
+    $(".inputEndOffer_" + item).show();
+    $(".inputStock_" + item).show();
+    $(".dropzone_" + item).show();
+    $(".galleryProduct_" + item).show();
   } else {
     $(".inputVideo_" + item).hide();
+    $(".inputWhatsapp_" + item).show();
+    $(".inputCost_" + item).hide();
+    $(".inputPrice_" + item).hide();
+    $(".inputOffer_" + item).hide();
+    $(".inputEndOffer_" + item).hide();
+    $(".inputStock_" + item).hide();
     $(".iframeYoutube_" + item).hide();
     $(".dropzone_" + item).show();
     $(".galleryProduct_" + item).show();
@@ -580,43 +603,85 @@ function initDropzone(item) {
 
       var countArrayFiles = 0;
 
-      this.on("addedfile", function (file) {
-        countArrayFiles++;
+      if (arrayFiles.length == 0 && $("[name='type_variant_']")) {
+        this.on("addedfile", function (file) {
+          countArrayFiles++;
 
-        setTimeout(function () {
-          arrayFiles.push({
-            file: file.dataURL,
-            type: file.type,
-            width: file.width,
-            height: file.height,
-          });
+          setTimeout(function () {
+            arrayFiles.push({
+              file: file.dataURL,
+              type: file.type,
+              width: file.width,
+              height: file.height,
+            });
 
-          elem
-            .parent()
-            .children(".galleryProduct_" + item)
-            .val(JSON.stringify(arrayFiles));
-        }, 500 * countArrayFiles);
-      });
+            elem
+              .parent()
+              .children(".galleryProduct_" + item)
+              .val(JSON.stringify(arrayFiles));
+          }, 500 * countArrayFiles);
+        });
 
-      this.on("removedfile", function (file) {
-        countArrayFiles++;
+        this.on("removedfile", function (file) {
+          countArrayFiles++;
 
-        setTimeout(function () {
-          var index = arrayFiles.indexOf({
-            file: file.dataURL,
-            type: file.type,
-            width: file.width,
-            height: file.height,
-          });
+          setTimeout(function () {
+            var index = arrayFiles.indexOf({
+              file: file.dataURL,
+              type: file.type,
+              width: file.width,
+              height: file.height,
+            });
 
-          arrayFiles.splice(index, 1);
+            arrayFiles.splice(index, 1);
 
-          elem
-            .parent()
-            .children(".galleryProduct_" + item)
-            .val(JSON.stringify(arrayFiles));
-        }, 500 * countArrayFiles);
-      });
+            elem
+              .parent()
+              .children(".galleryProduct_" + item)
+              .val(JSON.stringify(arrayFiles));
+          }, 500 * countArrayFiles);
+        });
+      }
+
+      if (arrayFiles.length == 0 && $("[name='type_publivariant_']")) {
+        this.on("addedfile", function (file) {
+          countArrayFiles++;
+
+          setTimeout(function () {
+            arrayFiles.push({
+              file: file.dataURL,
+              type: file.type,
+              width: file.width,
+              height: file.height,
+            });
+
+            elem
+              .parent()
+              .children(".galleryPublication_" + item)
+              .val(JSON.stringify(arrayFiles));
+          }, 500 * countArrayFiles);
+        });
+
+        this.on("removedfile", function (file) {
+          countArrayFiles++;
+
+          setTimeout(function () {
+            var index = arrayFiles.indexOf({
+              file: file.dataURL,
+              type: file.type,
+              width: file.width,
+              height: file.height,
+            });
+
+            arrayFiles.splice(index, 1);
+
+            elem
+              .parent()
+              .children(".galleryPublication_" + item)
+              .val(JSON.stringify(arrayFiles));
+          }, 500 * countArrayFiles);
+        });
+      }
 
       myDropzone = this;
 
@@ -625,6 +690,18 @@ function initDropzone(item) {
           arrayFiles.length == 0 &&
           $("[name='type_variant_" + item + "']").val() == "gallery" &&
           $(".idVariant").length == 0
+        ) {
+          fncToastr("error", "La galería no puede estar vacía");
+        } else if (
+          arrayFiles.length == 0 &&
+          $("[name='type_variant_" + item + "']").val() == "ondemand" &&
+          $(".idVariant").length == 0
+        ) {
+          fncToastr("error", "La galería no puede estar vacía");
+        } else if (
+          arrayFiles.length == 0 &&
+          $("[name='type_publivariant_" + item + "']").val() == "gallery" &&
+          $(".idPubliVariant").length == 0
         ) {
           fncToastr("error", "La galería no puede estar vacía");
         } else {
@@ -703,7 +780,7 @@ $(document).on("click", ".addVariant", function () {
                       
             <div class="d-flex justify-content-between">
               
-              <label for="info_product">Variante ${variantItem}<sup class="text-danger">*</sup></label>
+              <label for="info_publication">Variante ${variantItem}<sup class="text-danger">*</sup></label>
 
               <div>
                 <button type="button" class="btn btn-default btn-sm rounded-pill px-3 quitVariant"><i class="fas fa-times fa-xs"></i> Quitar esta variante</button>
@@ -727,6 +804,7 @@ $(document).on("click", ".addVariant", function () {
 
                   <option value="gallery">Galería de fotos</option>
                   <option value="video">Video</option>
+                  <option value="ondemand">Cotizables</option>
 
                 </select>
 
@@ -778,7 +856,17 @@ $(document).on("click", ".addVariant", function () {
 
               </div>
 
-              <div class="input-group mb-3">
+              <div class="input-group mb-3 inputWhatsapp_${variantItem}" style="display:none" >
+
+                  <span class="input-group-text">
+                    <i class="fas fa-clipboard-list"></i>
+                  </span>
+                  
+                <input type="text" class="form-control" name="whatsapp_variant_${variantItem}" placeholder="Enlace a la variante en Whatsapp">
+
+              </div>
+
+              <div class="input-group mb-3 inputCost_${variantItem}"">
 
                   <span class="input-group-text">
                     <i class="fas fa-hand-holding-usd"></i>
@@ -788,7 +876,7 @@ $(document).on("click", ".addVariant", function () {
 
               </div>
 
-              <div class="input-group mb-3">
+              <div class="input-group mb-3 inputPrice_${variantItem}"">
 
                   <span class="input-group-text">
                     <i class="fas fa-funnel-dollar"></i>
@@ -798,7 +886,7 @@ $(document).on("click", ".addVariant", function () {
 
               </div>
 
-              <div class="input-group mb-3">
+              <div class="input-group mb-3 inputOffer_${variantItem}"">
 
                   <span class="input-group-text">
                     <i class="fas fa-tag"></i>
@@ -808,7 +896,7 @@ $(document).on("click", ".addVariant", function () {
 
               </div>
 
-              <div class="input-group mb-3">
+              <div class="input-group mb-3 inputEndOffer_${variantItem}"">
 
                   <span class="input-group-text">Fin del descuento</span>
                   
@@ -816,7 +904,7 @@ $(document).on("click", ".addVariant", function () {
 
               </div>
 
-              <div class="input-group mb-3">
+              <div class="input-group mb-3 inputStock_${variantItem}"">
 
                   <span class="input-group-text">
                     <i class="fas fa-list"></i>
@@ -844,6 +932,118 @@ $(document).on("click", ".addVariant", function () {
 });
 
 /*=============================================
+Adicionar PubliVariante
+=============================================*/
+
+$(document).on("click", ".addPubliVariant", function () {
+  var variantItem = Number($('[name="totalPubliVariants"]').val()) + 1;
+
+  $(".publivariantList").append(`
+
+    <div class="col">
+
+      <div class="card publivariantCount">
+          
+        <div class="card-body">
+
+          <div class="form-group">
+                      
+            <div class="d-flex justify-content-between">
+              
+              <label for="info_product">Variante ${variantItem}<sup class="text-danger">*</sup></label>
+
+              <div>
+                <button type="button" class="btn btn-default btn-sm rounded-pill px-3 quitVariant"><i class="fas fa-times fa-xs"></i> Quitar esta variante</button>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="row row-cols-1 row-cols-md-2">
+                      
+            <div class="col">
+
+              <div class="form-group">
+                
+                <select 
+                class="custom-select" 
+                name="type_publivariant_${variantItem}"
+                onchange="changeVariant(event, ${variantItem})"
+                > 
+
+                  <option value="gallery">Galería de fotos</option>
+                  <option value="video">Video</option>
+                  <option value="ondemand">Cotizables</option>
+
+                </select>
+
+              </div>
+
+              <div class="dropzone dropzone_${variantItem} mb-3">
+          
+                <div class="dz-message">
+                  
+                  Arrastra tus imágenes acá, tamaño máximo 400px * 450px
+                
+                </div> 
+
+              </div>
+
+              <input type="hidden" name="galleryPublication_${variantItem}" class="galleryPublication_${variantItem}"> 
+              <input type="hidden" name="galleryOldPublication_${variantItem}" class="galleryOldPublication_${variantItem}" value='[]'> 
+              <input type="hidden" name="deleteGalleryPublication_${variantItem}" class="deleteGalleryPublication_${variantItem}" value='[]'> 
+
+              <div class="input-group mb-3 inputVideo_${variantItem}" style="display:none">
+                
+                <span class="input-group-text">
+                   <i class="fas fa-clipboard-list"></i>
+                 </span>  
+
+                <input 
+                type="text" 
+                class="form-control" 
+                name="videoPublication_${variantItem}"
+                placeholder="Ingresa la URL de YouTube"
+                onchange="changeVideo(event, ${variantItem})"
+                >
+
+              </div>
+
+              <iframe width="100%" height="280" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen class="mb-3 iframeYoutube_${variantItem}" style="display:none"></iframe>
+
+            </div>  
+
+            <div class="col">
+
+              <div class="input-group mb-3">
+
+                  <span class="input-group-text">
+                    <i class="fas fa-clipboard-list"></i>
+                  </span>
+                  
+                <input type="text" class="form-control" name="description_variant_${variantItem}" placeholder="Descripción: Color Negro, talla S, Material Goma">
+
+              </div>
+              
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+   `);
+
+  $('[name="totalPubliVariants"]').val(variantItem);
+
+  initDropzone(variantItem);
+});
+
+/*=============================================
 Quitar Variante
 =============================================*/
 
@@ -860,6 +1060,40 @@ $(document).on("click", ".deleteVariant", function () {
     data.append("table", "variants");
     data.append("id", $(this).attr("idVariant"));
     data.append("nameId", "id_variant");
+
+    $.ajax({
+      url: "/ajax/delete-admin.ajax.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function (response) {
+        if (response == 200) {
+          fncToastr("success", "Variante borrada correctamente");
+        }
+      },
+    });
+  }
+});
+
+/*=============================================
+Quitar PubliVariante
+=============================================*/
+
+$(document).on("click", ".deletePubliVariant", function () {
+  $(this).parent().parent().parent().parent().parent().remove();
+
+  var publivariantCount = $(".publivariantCount");
+  $('[name="totalPubliVariants"]').val(publivariantCount.length);
+
+  if ($(this).attr("idPubliVariant") != undefined) {
+    var data = new FormData();
+
+    data.append("token", localStorage.getItem("token-admin"));
+    data.append("table", "publivariants");
+    data.append("id", $(this).attr("idPubliVariant"));
+    data.append("nameId", "id_publivariant");
 
     $.ajax({
       url: "/ajax/delete-admin.ajax.php",

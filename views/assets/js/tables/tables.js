@@ -286,6 +286,7 @@ $(document).on("click", ".deleteItem", function () {
                 fncToastr("warning", "Este item no se puede borrar");
               }
             } else {
+              console.log(response);
               fncMatPreloader("off");
               fncToastr("Error", "Este item no se pudo borrar");
             }
